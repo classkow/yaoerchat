@@ -104,6 +104,8 @@ export const createConfig = ({
           to: 'manifest.webmanifest',
           toType: 'file',
         },
+        // 主页装饰图在代码里以字面量 URL 引用，rspack 不处理它，必须显式拷贝到产物根
+        { from: path.resolve(root, 'public/frog-logo.svg'), to: 'frog-logo.svg', toType: 'file' },
         { from: path.resolve(root, 'public/icons'), to: 'icons', toType: 'dir' },
       ],
     }),

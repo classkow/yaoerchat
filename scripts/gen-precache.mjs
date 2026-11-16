@@ -94,6 +94,8 @@ collect(
   optional,
   listFiles(path.join(distDir, 'static', 'media')).filter((file) => file.endsWith('.woff2'))
 )
+// 主页装饰图：缺了只是少只青蛙，不影响启动，因此进容错集；它在 dist 根目录，需单独收集
+collect(optional, [path.join(distDir, 'frog-logo.svg')].filter((file) => existsSync(file)))
 collect(optional, listFiles(path.join(distDir, 'static', 'js', 'async')).filter((file) => file.endsWith('.js')))
 collect(
   optional,

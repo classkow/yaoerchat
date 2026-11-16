@@ -12,7 +12,17 @@ export const Welcome = () => {
     <div className={styles.container}>
       {isMobile ? <MobileHeader /> : null}
       <div className={styles.welcome}>
-        <div className={styles.greeting}>{t('welcomeMessageChat250808')}</div>
+        <div className={styles.hero}>
+          <img
+            src="./frog-logo.svg"
+            alt=""
+            aria-hidden="true"
+            className={styles.mascot}
+            width={160}
+            height={160}
+          />
+          <div className={styles.greeting}>{t('welcomeMessageChat250808')}</div>
+        </div>
         <ChatInput sessionId={null} />
         {isMobile ? <div className={styles.caveat}>{t('contentCaveat')}</div> : null}
       </div>
