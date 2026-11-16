@@ -97,6 +97,10 @@ export const en = {
   settingsLocationProvince: 'Select province/region',
   settingsLocationCity: 'Select city',
   settingsLocationRegion: 'Select country or region',
+  settingsReloadLabel: 'Reload app',
+  settingsReloadDescription:
+    'Use this if the interface looks broken or the cache misbehaves. Reloads the whole page.',
+  settingsReload: 'Reload',
   settingDialogAsideGeneralOptionLabel: 'General',
   settingDialogAsideDataOptionLabel: 'Data',
   avatarMenuSettingsDialogThemeItemLabel: 'Theme',

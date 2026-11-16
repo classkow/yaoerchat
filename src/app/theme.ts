@@ -25,7 +25,10 @@ export const useTheme = (): Theme => {
 const syncPageBackground = () => {
   const backgroundColor = getComputedStyle(document.body).backgroundColor
   document.documentElement.style.backgroundColor = backgroundColor
-  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', backgroundColor)
+  // 浅色/深色两条 meta 都带上当前实际底色，浏览器取第一条匹配的
+  document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
+    meta.setAttribute('content', backgroundColor)
+  })
 }
 
 /** 同步页面主题、根画布背景和支持 theme-color 的浏览器栏。 */

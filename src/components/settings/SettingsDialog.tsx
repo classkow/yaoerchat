@@ -106,6 +106,7 @@ const SettingsContent = () => {
               <ApiKeyField editor={apiKeyEditor} />
               <ImportHistory historyImport={historyImport} disabled={historyBusy} />
               <ExportHistory disabled={historyBusy} />
+              <ReloadApp />
               <SettingCell
                 label={t('deleteAllSessions')}
                 status={null}
@@ -552,6 +553,28 @@ const ExportHistory = ({ disabled }: { disabled: boolean }) => {
         >
           <IconDownloadOutline16 />
           {t('exportAllDownload')}
+        </Button>
+      }
+    />
+  )
+}
+
+/** 重新加载应用：装成独立应用后没有地址栏也没有刷新按钮，界面异常时用它自救。 */
+const ReloadApp = () => {
+  const t = useTranslate()
+  return (
+    <SettingCell
+      label={t('settingsReloadLabel')}
+      description={t('settingsReloadDescription')}
+      status={null}
+      action={
+        <Button
+          variant="outlined"
+          size="m"
+          className={styles.cellButton}
+          onClick={() => window.location.reload()}
+        >
+          {t('settingsReload')}
         </Button>
       }
     />
