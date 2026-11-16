@@ -82,7 +82,13 @@ export const createConfig = ({
     }),
     new rspack.DefinePlugin({ __API_ORIGIN__: JSON.stringify(apiOrigin) }),
     new rspack.CopyRspackPlugin({
-      patterns: [{ from: path.resolve(root, 'LICENSE'), to: 'LICENSE', toType: 'file' }],
+      patterns: [
+        { from: path.resolve(root, 'LICENSE'), to: 'LICENSE', toType: 'file' },
+        // PWA 资源必须落在产物根目录，Service Worker 的作用域才是 /yaoerchat/
+        { from: path.resolve(root, 'public/manifest.webmanifest'), to: 'manifest.webmanifest', toType: 'file' },
+        { from: path.resolve(root, 'public/sw.js'), to: 'sw.js', toType: 'file' },
+        { from: path.resolve(root, 'public/icons'), to: 'icons', toType: 'dir' },
+      ],
     }),
   ],
   performance: { hints: false },
