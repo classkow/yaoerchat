@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from '@rspack/cli'
@@ -10,6 +11,18 @@ const root = path.dirname(fileURLToPath(import.meta.url))
 const { version } = JSON.parse(
   readFileSync(new URL('./package.json', import.meta.url), 'utf8')
 ) as { version: string }
+
+/** 构建对应的提交短哈希，用于在设置里区分「装的是哪一次发布」；无 git 环境时退化为 dev */
+const commit = (() => {
+  try {
+    return execFileSync('git', ['rev-parse', '--short', 'HEAD'], {
+      cwd: root,
+      encoding: 'utf8',
+    }).trim()
+  } catch {
+    return 'dev'
+  }
+})()
 
 const cssLoader = {
   loader: 'builtin:lightningcss-loader',
@@ -78,7 +91,7 @@ export const createConfig = ({
     new rspack.HtmlRspackPlugin({
       template: './src/index.html',
       scriptLoading: 'defer',
-      meta: { 'application-version': version },
+      meta: { 'application-version': version, 'application-commit': commit },
     }),
     new rspack.DefinePlugin({ __API_ORIGIN__: JSON.stringify(apiOrigin) }),
     new rspack.CopyRspackPlugin({
@@ -86,7 +99,11 @@ export const createConfig = ({
         { from: path.resolve(root, 'LICENSE'), to: 'LICENSE', toType: 'file' },
         // PWA 资源必须落在产物根目录，Service Worker 的作用域才是 /yaoerchat/
         // sw.js 不在这里拷贝：它由 scripts/gen-precache.mjs 在构建后生成，拷贝插件会破坏占位符
-        { from: path.resolve(root, 'public/manifest.webmanifest'), to: 'manifest.webmanifest', toType: 'file' },
+        {
+          from: path.resolve(root, 'public/manifest.webmanifest'),
+          to: 'manifest.webmanifest',
+          toType: 'file',
+        },
         { from: path.resolve(root, 'public/icons'), to: 'icons', toType: 'dir' },
       ],
     }),

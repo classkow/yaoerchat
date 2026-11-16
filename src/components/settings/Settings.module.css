@@ -429,6 +429,14 @@
   width: 100%;
 }
 
+.version {
+  padding: 12px 0;
+  font-size: 12px;
+  line-height: 18px;
+  color: var(--dsw-alias-label-tertiary);
+  user-select: text;
+}
+
 @media not all and (min-width: 768px) {
   .deleteActions > button {
     min-height: 44px;

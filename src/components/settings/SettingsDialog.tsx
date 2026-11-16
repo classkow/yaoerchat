@@ -100,6 +100,7 @@ const SettingsContent = () => {
               <LocaleSetting />
               <TtsVoiceSetting />
               <LocationSetting />
+              <AppVersion />
             </>
           ) : (
             <>
@@ -580,3 +581,18 @@ const ReloadApp = () => {
     />
   )
 }
+
+/** 构建时注入的版本信息：版本号看发版级别，提交短哈希看装的是哪一次发布 */
+const buildLabel = (() => {
+  const meta = (name: string) =>
+    document.querySelector(`meta[name="${name}"]`)?.getAttribute('content')?.trim() || ''
+  return [
+    meta('application-version') ? `v${meta('application-version')}` : '',
+    meta('application-commit'),
+  ]
+    .filter(Boolean)
+    .join(' · ')
+})()
+
+const AppVersion = () =>
+  buildLabel ? <div className={styles.version}>{`yaoer ${buildLabel}`}</div> : null
