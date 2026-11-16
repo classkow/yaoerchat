@@ -85,8 +85,8 @@ export const createConfig = ({
       patterns: [
         { from: path.resolve(root, 'LICENSE'), to: 'LICENSE', toType: 'file' },
         // PWA 资源必须落在产物根目录，Service Worker 的作用域才是 /yaoerchat/
+        // sw.js 不在这里拷贝：它由 scripts/gen-precache.mjs 在构建后生成，拷贝插件会破坏占位符
         { from: path.resolve(root, 'public/manifest.webmanifest'), to: 'manifest.webmanifest', toType: 'file' },
-        { from: path.resolve(root, 'public/sw.js'), to: 'sw.js', toType: 'file' },
         { from: path.resolve(root, 'public/icons'), to: 'icons', toType: 'dir' },
       ],
     }),
